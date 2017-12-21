@@ -1,35 +1,25 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public abstract class GameGrid {
 
-	private int rowSize;
-	private int columnSize;
+	private int size;
 
 	private int[][] grid;
 
 	private ArrayList<Ship> ships = new ArrayList<>();
 
-	public GameGrid(int rowSize, int columnSize) {
-		this.grid = new int[rowSize][columnSize];
+	public GameGrid(int size) {
+		this.grid = new int[size][size];
 
-		this.rowSize = rowSize;
-		this.columnSize = columnSize;
+		this.size = size;
 
 	}
 	
 	
 
-	public int getRowSize() {
-		return rowSize;
+	public int getSize() {
+		return size-1;
 	}
-
-
-
-	public int getColumnSize() {
-		return columnSize;
-	}
-
 
 
 	public int[][] getGrid() {
@@ -89,8 +79,13 @@ public abstract class GameGrid {
 
 		
 		// Add larger ships 1st to avoid complications!
-		ships.add(patrol1);
+		ships.add(carrier);
+		ships.add(destroyer);
+		ships.add(submarine);
+		ships.add(battleship2);
 		ships.add(battleship1);
+		ships.add(patrol2);
+		ships.add(patrol1);
 	}
 
 	public boolean placeDirectionOfShip(Ship ship, int y, int x, String direction) {
@@ -141,30 +136,34 @@ public abstract class GameGrid {
 		int shipSize = ship.getSize();
 
 		// check if coords within bounds
-		if (x > rowSize || x < 0 || y > columnSize || y < 0) {
+		if (x > getSize() || x < 0 || y > getSize() || y < 0) {
+			System.out.println("WUT");
 			return false;
 		}
 		// check if current coord is available
 		if (getGrid()[y][x] != 0) {
+			System.out.println("WUT2");
 			return false;
 		}
 
 		// check if ship will go out of bounds
 		int check = 0;
 		if (direction.equals("north")) {
-			check = y - shipSize;
+			check = (y-1) - shipSize;
 		} else if (direction.equals("east")) {
-			check = x + shipSize;
+			check = (x-1) + shipSize;
 		} else if (direction.equals("south")) {
-			check = y + shipSize;
+			check = (y-1) + shipSize;
 		} else if (direction.equals("west")) {
-			check = x - shipSize;
+			check = (x-1) - shipSize;
 		} else {
+			System.out.println(check);
 			return false;
 		}
 
 		// Out of bounds check
-		if (check > 4 || check < 0) {
+		if (check > getSize() || check < 0) {
+			System.out.println("WUT4 " + check);
 			return false;
 		}
 
@@ -181,7 +180,7 @@ public abstract class GameGrid {
 				x--;
 			}
 
-			if (x > rowSize-1 || x < 0 || y > columnSize-1 || y < 0 || getGrid()[y][x] != 0) {
+			if (x > getSize() || x < 0 || y > getSize() || y < 0 || getGrid()[y][x] != 0) {
 				return false;
 			}
 

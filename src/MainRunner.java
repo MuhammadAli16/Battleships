@@ -25,16 +25,17 @@ public class MainRunner {
 		do {
 			// Player 1 move
 			do {
-				System.out.println("\nEnter a coord to target!");
-				Scanner sc = new Scanner(System.in);
+//				System.out.println("\nEnter a coord to target!");
+//				Scanner sc = new Scanner(System.in);
+//
+//				System.out.println("Y coord");
+//				int y = sc.nextInt();
+//
+//				System.out.println("X coord");
+//				int x = sc.nextInt();
 
-				System.out.println("Y coord");
-				int y = sc.nextInt();
-
-				System.out.println("X coord");
-				int x = sc.nextInt();
-
-				player1Redo = game.makeMove(game.getGrid2(), y, x);
+				//player1Redo = game.makeMove(game.getGrid2(), y, x);
+				player1Redo = game.generateAiMove(game.getGrid2());
 				System.out.println("AI GRID");
 				game.getGrid2().showGrid();
 				gameOver = game.checkIfAllDestroyed(game.getGrid2());
@@ -51,9 +52,6 @@ public class MainRunner {
 					gameOver = game.checkIfAllDestroyed(game.getGrid());
 				} while (player2Redo);
 			}
-			
-
-			
 			
 
 		} while (!gameOver);

@@ -1,8 +1,8 @@
 
 public class AIGameGrid extends GameGrid {
 
-	public AIGameGrid(int rowSize, int columnSize) {
-		super(rowSize, columnSize);
+	public AIGameGrid(int size) {
+		super(size);
 	}
 
 	// AI METHOD OF PLACING SHIPS
@@ -11,8 +11,8 @@ public class AIGameGrid extends GameGrid {
 
 		for (int i = 0; i < getShips().size(); i++) {
 			System.out.println("Placing ship: " + getShips().get(i).getShipName());
-			int randomRow = (int) (Math.random() * (getRowSize() - 0));
-			int randomColumn = (int) (Math.random() * (getColumnSize() - 0));
+			int randomRow = (int) (Math.random() * (getSize() - 0));
+			int randomColumn = (int) (Math.random() * (getSize() - 0));
 			int directionInt = 1 + (int)(Math.random() * ((4 - 1) + 1));
 
 			String direction = null;

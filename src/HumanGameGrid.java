@@ -4,8 +4,8 @@ public class HumanGameGrid extends GameGrid {
 
 	
 	
-	public HumanGameGrid(int rowSize, int columnSize) {
-		super(rowSize, columnSize);
+	public HumanGameGrid(int size) {
+		super(size);
 	}
 	
 	@Override
