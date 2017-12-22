@@ -1,3 +1,4 @@
+package battleShips;
 import java.util.ArrayList;
 
 public abstract class GameGrid {
