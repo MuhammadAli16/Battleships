@@ -156,56 +156,33 @@ public abstract class GameGrid {
 		}
 
 		// check if ship will go out of bounds
-		int check = 0;
-		
-		switch (direction){
-		case NORTH:
-			check = (y-1) - shipSize;
-			break;
-		case EAST:
-			check = (x-1) + shipSize;
-			break;
-		case SOUTH:
-			check = (y-1) + shipSize;
-			break;
-		case WEST:
-			check = (x-1) - shipSize;
-			break;
-		default:
-			return false;
-		}
-		
-//		if (direction.equals("north")) {
+//		int check = 0;
+//		
+//		switch (direction){
+//		case NORTH:
 //			check = (y-1) - shipSize;
-//		} else if (direction.equals("east")) {
+//			break;
+//		case EAST:
 //			check = (x-1) + shipSize;
-//		} else if (direction.equals("south")) {
+//			break;
+//		case SOUTH:
 //			check = (y-1) + shipSize;
-//		} else if (direction.equals("west")) {
+//			break;
+//		case WEST:
 //			check = (x-1) - shipSize;
-//		} else {
-//			System.out.println(check);
+//			break;
+//		default:
+//			return false;
+//		}
+//
+//		// Out of bounds check
+//		if (check > getSize() || check < 0) {
+//			//System.out.println("WUT4 " + check);
 //			return false;
 //		}
 
-		// Out of bounds check
-		if (check > getSize() || check < 0) {
-			//System.out.println("WUT4 " + check);
-			return false;
-		}
-
 		// check if each coord after initial is available
 		for (int i = 1; i < ship.getSize(); i++) {
-
-//			if (direction.equals("north")) {
-//				y--;
-//			} else if (direction.equals("east")) {
-//				x++;
-//			} else if (direction.equals("south")) {
-//				y++;
-//			} else if (direction.equals("west")) {
-//				x--;
-//			}
 			
 			switch (direction){
 			case NORTH:
