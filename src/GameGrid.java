@@ -2,21 +2,17 @@ import java.util.ArrayList;
 
 public abstract class GameGrid {
 
+	private boolean HAX = false;
+	
 	private int size;
-
 	private int[][] grid;
-
 	private ArrayList<Ship> ships = new ArrayList<>();
 
 	public GameGrid(int size) {
 		this.grid = new int[size][size];
-
 		this.size = size;
-
 	}
 	
-	
-
 	public int getSize() {
 		return size-1;
 	}
@@ -33,6 +29,7 @@ public abstract class GameGrid {
 	public ArrayList<Ship> getShips() {
 		return ships;
 	}
+	
 
 	// Functions of grid
 	public void showGrid() {
@@ -53,14 +50,25 @@ public abstract class GameGrid {
 		System.out.println();
 	}
 
-	public static void printRow(int[] row) {
+	public void printRow(int[] row) {
 		for (int i = 0; i < row.length; i++) { // : row) {
-			if (row[i] == 1) {
-				System.out.print("x" + row[i]);
-			} else if (row[i] == -1) {
-				System.out.print("~" + row[i]);
+			if (HAX){
+				if (row[i] == 1) {
+					System.out.print("x" + row[i]);
+				} else if (row[i] == -1) {
+					System.out.print("~" + row[i]);
+				} else {
+					System.out.print("*" + row[i]);
+				}
 			} else {
-				System.out.print("*" + row[i]);
+				if (row[i] == 1) {
+					System.out.print("x");
+				} else if (row[i] == -1) {
+					System.out.print("~");
+				} else {
+					System.out.print("*");
+			}
+			
 			}
 
 			System.out.print("\t");
@@ -88,7 +96,7 @@ public abstract class GameGrid {
 		ships.add(patrol1);
 	}
 
-	public boolean placeDirectionOfShip(Ship ship, int y, int x, String direction) {
+	public boolean placeDirectionOfShip(Ship ship, int y, int x, Direction direction) {
 
 		int id = ship.getId();
 		int shipSize = ship.getSize();
@@ -107,13 +115,13 @@ public abstract class GameGrid {
 			// Do the Placements !!
 			for (int i = 1; i < shipSize; i++) {
 
-				if (direction.equals("north")) {
+				if (direction.equals(Direction.NORTH)) {
 					y--;
-				} else if (direction.equals("east")) {
+				} else if (direction.equals(Direction.EAST)) {
 					x++;
-				} else if (direction.equals("south")) {
+				} else if (direction.equals(Direction.SOUTH)) {
 					y++;
-				} else if (direction.equals("west")) {
+				} else if (direction.equals(Direction.WEST)) {
 					x--;
 				}
 				// only place if nothing on the spot
@@ -131,7 +139,7 @@ public abstract class GameGrid {
 
 	}
 
-	public boolean errorCheckingForPlacementsOfShips(Ship ship, int y, int x, String direction) {
+	public boolean errorCheckingForPlacementsOfShips(Ship ship, int y, int x, Direction direction) {
 
 		int shipSize = ship.getSize();
 
@@ -148,36 +156,72 @@ public abstract class GameGrid {
 
 		// check if ship will go out of bounds
 		int check = 0;
-		if (direction.equals("north")) {
+		
+		switch (direction){
+		case NORTH:
 			check = (y-1) - shipSize;
-		} else if (direction.equals("east")) {
+			break;
+		case EAST:
 			check = (x-1) + shipSize;
-		} else if (direction.equals("south")) {
+			break;
+		case SOUTH:
 			check = (y-1) + shipSize;
-		} else if (direction.equals("west")) {
+			break;
+		case WEST:
 			check = (x-1) - shipSize;
-		} else {
-			System.out.println(check);
+			break;
+		default:
 			return false;
 		}
+		
+//		if (direction.equals("north")) {
+//			check = (y-1) - shipSize;
+//		} else if (direction.equals("east")) {
+//			check = (x-1) + shipSize;
+//		} else if (direction.equals("south")) {
+//			check = (y-1) + shipSize;
+//		} else if (direction.equals("west")) {
+//			check = (x-1) - shipSize;
+//		} else {
+//			System.out.println(check);
+//			return false;
+//		}
 
 		// Out of bounds check
 		if (check > getSize() || check < 0) {
-			System.out.println("WUT4 " + check);
+			//System.out.println("WUT4 " + check);
 			return false;
 		}
 
 		// check if each coord after initial is available
 		for (int i = 1; i < ship.getSize(); i++) {
 
-			if (direction.equals("north")) {
+//			if (direction.equals("north")) {
+//				y--;
+//			} else if (direction.equals("east")) {
+//				x++;
+//			} else if (direction.equals("south")) {
+//				y++;
+//			} else if (direction.equals("west")) {
+//				x--;
+//			}
+			
+			switch (direction){
+			case NORTH:
 				y--;
-			} else if (direction.equals("east")) {
+				break;
+			case EAST:
 				x++;
-			} else if (direction.equals("south")) {
+				break;
+			case SOUTH:
 				y++;
-			} else if (direction.equals("west")) {
+				break;
+			case WEST:
 				x--;
+				break;
+			default:
+				break;
+			
 			}
 
 			if (x > getSize() || x < 0 || y > getSize() || y < 0 || getGrid()[y][x] != 0) {
@@ -188,9 +232,47 @@ public abstract class GameGrid {
 
 		return true;
 	}
+	
+	
+	
 
+
+	public boolean makeMove(GameGrid g, int y, int x){
+		// if hit mark spot as hit and reduce health of ship
+		if (g.getGrid()[y][x] > 1){
+			System.out.println("ENEMY HIT");
+			int value = g.getGrid()[y][x];
+			
+			Ship ship = g.getShips().stream().filter(u ->((Integer) u.getId()).equals(value)).findAny().get();
+			ship.decrementHealth();
+			
+			g.getGrid()[y][x] = 1;
+			
+			if (ship.getHealth() == 0){
+				System.out.println("SHIP DESTROYED");
+				ship.setAlive(false);
+				
+			}
+			return true;
+		} else if (g.getGrid()[y][x] == 1 || g.getGrid()[y][x] == -1){
+			System.out.println("Spot already hit");
+		} else {
+			g.getGrid()[y][x] = -1;
+			System.out.println("You hit the ocean you twat");
+		}
+		
+		return false;
+	}
+
+	public void showHealthOfShips(){
+		for (int i = 0; i < ships.size(); i++){
+			Ship ship = ships.get(i);
+			System.out.println(ship.getShipName() + ": " + ship.getHealth() + "/" + ship.getSize());
+		}
+	}
 	
 	public abstract void placeShips();
+	public abstract boolean makeMove(GameGrid oppGrid);
 
 	
 
