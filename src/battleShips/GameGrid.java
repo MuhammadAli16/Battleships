@@ -155,32 +155,6 @@ public abstract class GameGrid {
 			return false;
 		}
 
-		// check if ship will go out of bounds
-//		int check = 0;
-//		
-//		switch (direction){
-//		case NORTH:
-//			check = (y-1) - shipSize;
-//			break;
-//		case EAST:
-//			check = (x-1) + shipSize;
-//			break;
-//		case SOUTH:
-//			check = (y-1) + shipSize;
-//			break;
-//		case WEST:
-//			check = (x-1) - shipSize;
-//			break;
-//		default:
-//			return false;
-//		}
-//
-//		// Out of bounds check
-//		if (check > getSize() || check < 0) {
-//			//System.out.println("WUT4 " + check);
-//			return false;
-//		}
-
 		// check if each coord after initial is available
 		for (int i = 1; i < ship.getSize(); i++) {
 			
