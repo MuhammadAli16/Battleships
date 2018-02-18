@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public abstract class GameGrid {
 
-	private boolean HAX = false;
+	private boolean HAX = true;
 	
 	private int size;
 	private int[][] grid;
@@ -186,9 +186,6 @@ public abstract class GameGrid {
 	}
 	
 	
-	
-
-
 	public boolean makeMove(GameGrid g, int y, int x){
 		// if hit mark spot as hit and reduce health of ship
 		if (g.getGrid()[y][x] > 1){
@@ -210,7 +207,7 @@ public abstract class GameGrid {
 			System.out.println("Spot already hit");
 		} else {
 			g.getGrid()[y][x] = -1;
-			System.out.println("You hit the ocean you twat");
+			System.out.println("You hit the ocean");
 		}
 		
 		return false;
@@ -224,7 +221,7 @@ public abstract class GameGrid {
 	}
 	
 	public abstract void placeShips();
-	public abstract boolean makeMove(GameGrid oppGrid);
+	public abstract boolean genMove(GameGrid oppGrid);
 
 	
 

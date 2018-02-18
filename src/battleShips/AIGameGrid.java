@@ -49,7 +49,8 @@ public class AIGameGrid extends GameGrid {
 	}
 
 	// Make moves
-	public boolean makeMove(GameGrid oppGrid) {
+	@Override
+	public boolean genMove(GameGrid oppGrid) {
 		int y = 0 + (int) (Math.random() * ((getSize() - 0) + 1));
 		int x = 0 + (int) (Math.random() * ((getSize() - 0) + 1));
 

@@ -3,7 +3,7 @@ package battleShips;
 public class TheGame {
 
 	// set dimensions of grid!
-	private final int GRIDSIZE = 12;
+	final static int GRIDSIZE = 12;
 
 	private GameGrid player1Grid;
 	private GameGrid player2Grid;
@@ -45,8 +45,8 @@ public class TheGame {
 	// Actual game play starts!
 	public void gameLoop() {
 		// Check if game is finished
-		boolean gameOver = false;
-		boolean gameOver2 = false;
+		boolean gameWinnerPlyr1 = false;
+		boolean gameWinnerPlyr2 = false;
 		// Check to see if hit target - if true go again
 		boolean player1Redo = false;
 		boolean player2Redo = false;
@@ -55,35 +55,35 @@ public class TheGame {
 			// Player 1 move
 			do {
 				System.out.println("\nPlayer 1, your turn!");
-				player1Redo = getGrid().makeMove(getGrid2());
+				player1Redo = getGrid().genMove(getGrid2());
 
-				System.out.println("Player 2 GRID");
+				System.out.println("\nPlayer 2 GRID");
 				getGrid2().showGrid();
 				getGrid2().showHealthOfShips();
 
-				gameOver = checkIfAllDestroyed(getGrid2());
+				gameWinnerPlyr1 = checkIfAllDestroyed(getGrid2());
 
-			} while (player1Redo && !gameOver);
+			} while (player1Redo && !gameWinnerPlyr1);
 
 			// Player 2 move
-			if (!gameOver) {
+			if (!gameWinnerPlyr1) {
 				do {
 					System.out.println("\nPlayer 2, your turn!");
-					player2Redo = getGrid2().makeMove((getGrid()));
+					player2Redo = getGrid2().genMove((getGrid()));
 					
-					System.out.println("USER GRID");
+					System.out.println("\nUSER GRID");
 					getGrid().showGrid();
 					getGrid().showHealthOfShips();
 					
-					gameOver = checkIfAllDestroyed(getGrid());
-				} while (player2Redo);
+					gameWinnerPlyr2 = checkIfAllDestroyed(getGrid());
+				} while (player2Redo && !gameWinnerPlyr2);
 			}
 
-		} while (!gameOver && !gameOver2);
+		} while (!gameWinnerPlyr1 && !gameWinnerPlyr2);
 
-		if (gameOver) {
+		if (gameWinnerPlyr1) {
 			System.out.println("Player 1 is Victorius!");
-		} else if (gameOver2) {
+		} else if (gameWinnerPlyr2) {
 			System.out.println("Player 2 is Victorius!");
 		} else {
 			System.out.println("This should never be shown");

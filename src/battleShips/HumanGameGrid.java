@@ -74,7 +74,8 @@ public class HumanGameGrid extends GameGrid {
 	}
 	
 	// Make move on opposite grid
-	public boolean makeMove(GameGrid oppGrid) {
+	@Override
+	public boolean genMove(GameGrid oppGrid) {
 
 		int y = 0;
 		int x = 0;
@@ -86,11 +87,17 @@ public class HumanGameGrid extends GameGrid {
 				System.out.println("\nEnter a coord to target!");
 				Scanner sc = new Scanner(System.in);
 
-				System.out.println("Y coord");
-				y = sc.nextInt();
-
 				System.out.println("X coord");
 				x = sc.nextInt();
+				
+				System.out.println("Y coord");
+				y = sc.nextInt();
+				
+				if(x > TheGame.GRIDSIZE-1 || y > TheGame.GRIDSIZE-1 || x < 0 || y < 0 ){
+					System.out.println("Error: Coords out of bounds. Try again!");
+					validInput = false;
+				}
+				
 			} catch (InputMismatchException ar){
 				validInput = false;
 				System.out.println("Error: Wrong input. Try again!");
